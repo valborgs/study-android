@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/buttonToast"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Toast 메시지" />
+
+            <Button
+                android:id="@+id/buttonSnackBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SnackBar 메시지" />
+
+            <Button
+                android:id="@+id/buttonBasicDialog"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="기본 다이얼로그" />
+
+            <Button
+                android:id="@+id/buttonCustomDialog"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="커스텀 다이얼로그" />
+
+            <Button
+                android:id="@+id/buttonNotification1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="알림 메시지1" />
+
+            <Button
+                android:id="@+id/buttonNotification2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="알림 메시지2" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

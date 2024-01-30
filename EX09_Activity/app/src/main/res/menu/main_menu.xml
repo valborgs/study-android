@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/main_menu_item1"
+        android:icon="@drawable/add_24px"
+        android:title="학생정보입력"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/main_menu_item2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/description_24px"
+        android:title="총점 및 평균"
+        app:showAsAction="always" />
+</menu>

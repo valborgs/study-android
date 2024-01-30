@@ -47,6 +47,28 @@ class InputActivity : AppCompatActivity() {
                 setOnMenuItemClickListener{
                     when(it.itemId){
                         R.id.addInfo -> {
+                            // 누락된 칸이 있는 경우 포커스 주기
+                            if(inputName.text.toString() == ""){
+                                inputName.requestFocus()
+                                return@setOnMenuItemClickListener false
+                            }
+                            if(inputGrade.text.toString() == ""){
+                                inputGrade.requestFocus()
+                                return@setOnMenuItemClickListener false
+                            }
+                            if(inputKor.text.toString() == ""){
+                                inputKor.requestFocus()
+                                return@setOnMenuItemClickListener false
+                            }
+                            if(inputEng.text.toString() == ""){
+                                inputEng.requestFocus()
+                                return@setOnMenuItemClickListener false
+                            }
+                            if(inputMath.text.toString() == "") {
+                                inputMath.requestFocus()
+                                return@setOnMenuItemClickListener false
+                            }
+
                             // 입력한 정보를 객체에 담는다.
                             val name = inputName.text.toString()
                             val grade = inputGrade.text.toString().toInt()

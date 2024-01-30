@@ -39,6 +39,8 @@ class MainActivity : AppCompatActivity() {
 
         initData()
 
+        initToolbar()
+
         initView()
 
         setEvent()
@@ -89,6 +91,75 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // Toolbar 설정
+    fun initToolbar(){
+        activityMainBinding.apply {
+            toolbarMain.apply {
+                // 타이틀
+                title = "학생 정보 관리"
+                // 메뉴 설정
+                inflateMenu(R.menu.main_menu)
+                // 메뉴를 눌렀을 때의 리스너
+                setOnMenuItemClickListener {
+                    // 선택한 메뉴 아이템의 아이디로 분기한다.
+                    when(it.itemId){
+                        // 학생 정보 추가
+                        R.id.main_menu_item1 -> {
+                            // InputActivity를 실행한다.
+                            val newIntent = Intent(this@MainActivity, InputActivity::class.java)
+                            inputActivityLauncher.launch(newIntent)
+                        }
+                        // 총점과 평균
+                        R.id.main_menu_item2 -> {
+                            // ReportActivity를 실행한다.
+                            val newIntent = Intent(this@MainActivity, ReportActivity::class.java)
+
+                            // 학생 정보가 저장되어 있는지 여부를 담아준다.
+                            val chk1 = if(studentList.size == 0){
+                                false
+                            } else {
+                                true
+                            }
+                            newIntent.putExtra("chk1",chk1)
+                            // 담긴 학생 정보가 있다면 각 값을 구해 담아준다.
+                            if(chk1 == true){
+                                var korTotal = 0
+                                var engTotal = 0
+                                var mathTotal = 0
+
+                                studentList.forEach {
+                                    korTotal += it.kor
+                                    engTotal += it.eng
+                                    mathTotal += it.math
+                                }
+
+                                val korAvg = korTotal / studentList.size
+                                val engAvg = engTotal / studentList.size
+                                val mathAvg = mathTotal / studentList.size
+
+                                val allTotal = korTotal + engTotal + mathTotal
+                                val allAvg = (allTotal / studentList.size) / 3
+
+                                newIntent.putExtra("korTotal",korTotal)
+                                newIntent.putExtra("engTotal",engTotal)
+                                newIntent.putExtra("mathTotal",mathTotal)
+                                newIntent.putExtra("korAvg",korAvg)
+                                newIntent.putExtra("engAvg",engAvg)
+                                newIntent.putExtra("mathAvg",mathAvg)
+                                newIntent.putExtra("allTotal",allTotal)
+                                newIntent.putExtra("allAvg",allAvg)
+                            }
+
+                            reportActivityLauncher.launch(newIntent)
+                        }
+                    }
+
+                    true
+                }
+            }
+        }
+    }
+
     // View 초기 셋팅
     fun initView(){
         activityMainBinding.apply {
@@ -109,55 +180,7 @@ class MainActivity : AppCompatActivity() {
     // 이벤트 설정
     fun setEvent(){
         activityMainBinding.apply {
-            // 학생 정보 입력 버튼 이벤트
-            buttonInputInfo.setOnClickListener {
-                val newIntent = Intent(this@MainActivity, InputActivity::class.java)
-                inputActivityLauncher.launch(newIntent)
-            }
 
-            // 총점 및 평균 버튼 이벤트
-            buttonShowReport.setOnClickListener {
-                // ReportActivity를 실행한다.
-                val newIntent = Intent(this@MainActivity, ReportActivity::class.java)
-
-                // 학생 정보가 저장되어 있는지 여부를 담아준다.
-                val chk1 = if(studentList.size == 0){
-                    false
-                } else {
-                    true
-                }
-                newIntent.putExtra("chk1",chk1)
-                // 담긴 학생 정보가 있다면 각 값을 구해 담아준다.
-                if(chk1 == true){
-                    var korTotal = 0
-                    var engTotal = 0
-                    var mathTotal = 0
-
-                    studentList.forEach {
-                        korTotal += it.kor
-                        engTotal += it.eng
-                        mathTotal += it.math
-                    }
-
-                    val korAvg = korTotal / studentList.size
-                    val engAvg = engTotal / studentList.size
-                    val mathAvg = mathTotal / studentList.size
-
-                    val allTotal = korTotal + engTotal + mathTotal
-                    val allAvg = (allTotal / studentList.size) / 3
-
-                    newIntent.putExtra("korTotal",korTotal)
-                    newIntent.putExtra("engTotal",engTotal)
-                    newIntent.putExtra("mathTotal",mathTotal)
-                    newIntent.putExtra("korAvg",korAvg)
-                    newIntent.putExtra("engAvg",engAvg)
-                    newIntent.putExtra("mathAvg",mathAvg)
-                    newIntent.putExtra("allTotal",allTotal)
-                    newIntent.putExtra("allAvg",allAvg)
-                }
-
-                reportActivityLauncher.launch(newIntent)
-            }
         }
     }
 
