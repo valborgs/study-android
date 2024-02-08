@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <RadioGroup
+        android:id="@+id/filterGroup"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/radioButtonFilterAll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="전체" />
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/radioButtonFilterLion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="사자" />
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/radioButtonFilterTiger"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="호랑이" />
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/radioButtonFilterGiraff"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="기린" />
+    </RadioGroup>
+</LinearLayout>
