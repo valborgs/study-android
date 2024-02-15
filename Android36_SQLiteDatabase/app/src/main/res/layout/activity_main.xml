@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity" >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp" >
+
+            <TextView
+                android:id="@+id/textViewResult"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+            <Button
+                android:id="@+id/buttonInsert1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="저장(쿼리사용)" />
+
+            <Button
+                android:id="@+id/buttonInsert2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="저장(라이브러리사용)" />
+
+            <Button
+                android:id="@+id/buttonSelect1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="가져오기(쿼리사용)" />
+
+            <Button
+                android:id="@+id/buttonSelect2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="가져오기(라이브러리사용)" />
+
+            <Button
+                android:id="@+id/buttonUpdate1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="수정(쿼리사용)" />
+
+            <Button
+                android:id="@+id/buttonUpdate2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="수정(라이브러리사용)" />
+
+            <Button
+                android:id="@+id/buttonDelete1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="삭제(쿼리사용)" />
+
+            <Button
+                android:id="@+id/buttonDelete2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="삭제(라이브러리사용)" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
