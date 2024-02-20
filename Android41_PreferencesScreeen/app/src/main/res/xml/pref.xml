@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="입력요소">
+
+        <EditTextPreference
+            android:defaultValue="안녕하세요"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="문자열 입력"
+            app:dialogIcon="@drawable/add_24px"
+            app:dialogMessage="문자열 입력 요소 입니다."
+            app:dialogTitle="문자열 입력"
+            app:icon="@drawable/approval_24px"
+            app:key="data1"
+            app:summary="문자열 입력 요소 입니다." />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="data2"
+            android:title="체크박스"
+            app:icon="@drawable/arrow_back_24px"
+            app:summary="체크박스 요소입니다."
+            app:summaryOff="체크되어 있지 않습니다."
+            app:summaryOn="체크되어 있습니다." />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="data3"
+            android:title="스위치"
+            app:icon="@drawable/calendar_month_24px"
+            app:summary="스위치 요소입니다."
+            app:summaryOff="Off 상태입니다."
+            app:summaryOn="On 상태입니다." />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="리스트 요소">
+
+        <ListPreference
+            android:defaultValue="value1"
+            android:title="단일 리스트 요소"
+            app:dialogIcon="@drawable/compost_24px"
+            app:entries="@array/title_list"
+            app:entryValues="@array/value_list"
+            app:icon="@drawable/delete_24px"
+            app:key="data4"
+            app:summary="단일 리스트 요소 입니다." />
+        <MultiSelectListPreference
+            android:defaultValue="@array/default_list"
+            android:entries="@array/title_list"
+            android:entryValues="@array/value_list"
+            android:key="data5"
+            android:title="다중 리스트 요소"
+            app:dialogIcon="@drawable/done_24px"
+            app:icon="@drawable/format_list_bulleted_24px"
+            app:summary="다중 리스트 요소입니다" />
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Android42_BasicResource</string>
+
+    <string name="str1">안녕하세요</string>
+    <string name="str2">반갑습니다.</string>
+
+    <!-- 문자열 : %s, 정수 : %d, 실수 : %f, 그 외 : %s -->
+    <!-- 아~~~ 주 옛날 버전의 안드로이드 스튜디오 에서는 formatted=false 를 넣어줘야 한다. -->
+    <string name="str3">이름은 %s 이고, 나이는 %d 살입니다</string>
+
+    <!-- 문자열 배열 -->
+    <string-array name="str4_array">
+        <item>항목1</item>
+        <item>항목2</item>
+        <item>항목3</item>
+        <item>항목4</item>
+        <item>항목5</item>
+    </string-array>
+</resources>
