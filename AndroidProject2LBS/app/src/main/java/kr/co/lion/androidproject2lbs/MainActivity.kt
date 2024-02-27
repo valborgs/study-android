@@ -1,12 +1,14 @@
 package kr.co.lion.androidproject2lbs
 
 import android.Manifest
+import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.SystemClock
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -16,8 +18,15 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kr.co.lion.androidproject2lbs.databinding.ActivityMainBinding
+import org.json.JSONObject
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.net.HttpURLConnection
+import java.net.URL
+import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,12 +42,50 @@ class MainActivity : AppCompatActivity() {
     lateinit var mainGoogleMap:GoogleMap
 
     // 현재 사용자 위치를 표시하기 위한 마커
-     var myMarker:Marker? = null
+    var myMarker:Marker? = null
+
+    // 현재 사용자의 위치를 가지고 있는 객체
+    var userLocation:Location? = null
+
+    // 서버로 부터 받아온 데이터를 담을 리스트
+    val latitudeList = mutableListOf<Double>()
+    val longitudeList = mutableListOf<Double>()
+    val nameList = mutableListOf<String>()
+    val vicinityList = mutableListOf<String>()
+    // 주변 장소를 표시한 마커들을 담을 리스트
+    val markerList = mutableListOf<Marker>()
 
     // 확인할 권한 목록
     val permissionList = arrayOf(
         Manifest.permission.ACCESS_FINE_LOCATION,
         Manifest.permission.ACCESS_COARSE_LOCATION
+    )
+
+    // 장소를 나타내는 단어들
+    var dialogData = arrayOf(
+        "all",
+        "accounting", "airport", "amusement_park",
+        "aquarium", "art_gallery", "atm", "bakery",
+        "bank", "bar", "beauty_salon", "bicycle_store",
+        "book_store", "bowling_alley", "bus_station",
+        "cafe", "campground", "car_dealer", "car_rental",
+        "car_repair", "car_wash", "casino", "cemetery",
+        "church", "city_hall", "clothing_store", "convenience_store",
+        "courthouse", "dentist", "department_store", "doctor",
+        "drugstore", "electrician", "electronics_store", "embassy",
+        "fire_station", "florist", "funeral_home", "furniture_store",
+        "gas_station", "gym", "hair_care", "hardware_store", "hindu_temple",
+        "home_goods_store", "hospital", "insurance_agency",
+        "jewelry_store", "laundry", "lawyer", "library", "light_rail_station",
+        "liquor_store", "local_government_office", "locksmith", "lodging",
+        "meal_delivery", "meal_takeaway", "mosque", "movie_rental", "movie_theater",
+        "moving_company", "museum", "night_club", "painter", "park", "parking",
+        "pet_store", "pharmacy", "physiotherapist", "plumber", "police", "post_office",
+        "primary_school", "real_estate_agency", "restaurant", "roofing_contractor",
+        "rv_park", "school", "secondary_school", "shoe_store", "shopping_mall",
+        "spa", "stadium", "storage", "store", "subway_station", "supermarket",
+        "synagogue", "taxi_stand", "tourist_attraction", "train_station",
+        "transit_station", "travel_agency", "university", "eterinary_care", "zoo"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,8 +113,32 @@ class MainActivity : AppCompatActivity() {
                 // 메뉴
                 inflateMenu(R.menu.main_menu)
                 setOnMenuItemClickListener {
-                    // 현재 위치를 다시 측정한다.
-                    getMyLocation()
+                    // 메뉴의 id로 분기한다.
+                    when(it.itemId){
+                        // 현재위치
+                        R.id.main_menu_location -> {
+                            // 현재 위치를 다시 측정한다.
+                            getMyLocation()
+                        }
+                        // 주변 정보 가졍오기
+                        R.id.main_menu_place -> {
+                            // 다이얼로그를 띄운다.
+                            val materialAlertDialogBuilder = MaterialAlertDialogBuilder(this@MainActivity)
+                            materialAlertDialogBuilder.setTitle("장소 종류 선택")
+                            materialAlertDialogBuilder.setNegativeButton("취소", null)
+                            materialAlertDialogBuilder.setItems(dialogData){ dialogInterface: DialogInterface, i: Int ->
+                                // 주변 정보를 가져온다.
+                                // 매개 변수에는 i번째 (사용자가 선택한 항목의 순서값) 문자열을 전달해준다.
+                                getPlaceData(dialogData[i])
+                            }
+                            materialAlertDialogBuilder.show()
+                        }
+                        // 주변 정보 마커 초기화
+                        R.id.main_menu_clear -> {
+                            initPlaceData()
+                        }
+                    }
+
                     true
                 }
             }
@@ -204,6 +275,9 @@ class MainActivity : AppCompatActivity() {
         Snackbar.make(activityMainBinding.root, "provider : ${location.provider}, 위도 : ${location.latitude}, 경도 : ${location.longitude}",
             Snackbar.LENGTH_SHORT).show()
 
+        // 현재 사용자의 위치를 프로퍼티에 담아준다.
+        userLocation = location
+
         // 위도와 경도를 관리하는 객체를 생성한다.
         val userLocation = LatLng(location.latitude, location.longitude)
 
@@ -232,5 +306,181 @@ class MainActivity : AppCompatActivity() {
 
         // 마커를 지도에 표시해준다.
         myMarker = mainGoogleMap.addMarker(markerOptions)
+    }
+
+    // 주변 정보를 가져온다.
+    fun getPlaceData(type:String){
+        // 안드로이드는 네트워크에 대한 코드는 Thread로 운영하는 것을 강제하고 있다.
+        // 모바일 네트워크는 오류가 발생할 가능성이 매우 크기 때문에 오류가 발생하더라도
+        // 애플리케이션이 종료되는 것을 방지하기 위함이다.
+        // 코틀린 자체가 예외처리를 의무로 하지 않지만 네트워크에 관련된 작업은
+        // 예외처리를 해서 오류가 발생했을 때 사용자에게 알려주는 것이 중요하다.
+        try{
+            // Thread를 가동시킨다.
+            thread {
+                // 사용자 위치를 받은적이 있다면
+                if(userLocation != null){
+                    // 접속할 서버의 주소
+                    val site = "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
+                    // 사용자 위치
+                    val location = "${userLocation?.latitude},${userLocation?.longitude}"
+                    // 반경 5km
+                    val radius = 5000
+                    // 언어
+                    val language = "ko"
+                    // API 키
+                    val apiKey = "AIzaSyBb27y33GxTYg4nqQwzioK5lirVnPjq3EE"
+
+                    // 다음 페이지의 데이터를 요청하기 위한 토큰
+                    var pagetoken:String? = null
+
+                    // 지도에 표시되어 있는 마커를 제거하고 데이터를 담는 리스트를 초기화 한다.
+                    runOnUiThread {
+                        initPlaceData()
+                    }
+
+                    // 페이지 토큰이 null이 아닐때까지 반복한다.
+                    do{
+                        SystemClock.sleep(1000)
+                        // 접속할 주소
+                        // 매개 변수로 전달되는 type이 all이 아니라면 type을 붙여준다.
+                        val serverPath = if(type == "all"){
+                            "${site}?location=${location}&radius=${radius}&language=${language}&key=${apiKey}"
+                        } else {
+                            "${site}?location=${location}&radius=${radius}&language=${language}&key=${apiKey}&type=${type}"
+                        }
+                        // Log.d("test1234",serverPath)
+
+                        // 만약 다음 페이지 토큰이 있다면
+                        val serverPath2 = if(pagetoken != null){
+                            "${serverPath}&pagetoken=${pagetoken}"
+                        } else {
+                            serverPath
+                        }
+
+                        // 서버에 접속한다.
+                        val url = URL(serverPath2)
+                        val httpURLConnection = url.openConnection() as HttpURLConnection
+                        // 스트림을 추출한다.
+                        // 문자를 읽어오기 위한 스트림
+                        val inputStreamReader = InputStreamReader(httpURLConnection.inputStream, "UTF-8")
+                        // 라인단위로 문자열을 읽어오는 스트림
+                        val bufferedReader = BufferedReader(inputStreamReader)
+
+                        // 읽어온 한 줄의 문자열을 담을 변수
+                        var str:String? = null
+                        // 읽어온 문장들을 누적해서 담을 객체
+                        var stringBuffer = StringBuffer()
+
+                        // 마지막까지 읽어온다.
+                        // 읽어올 것이 없다면 null이 반환된다.
+                        do{
+                            // 한 줄의 문장열을 읽어온다.
+                            str = bufferedReader.readLine()
+                            // 만약 읽어온 것이 있다면
+                            if(str != null){
+                                // StringBuffer에 누적시킨다.
+                                stringBuffer.append(str)
+                            }
+                        }while (str != null)
+
+                        // Log.d("test1234", stringBuffer.toString())
+
+                        // 전체가 중괄호 { } 이므로 JSONObject를 생성한다.
+                        val root = JSONObject(stringBuffer.toString())
+                        // status 값이 OK인 경우에만 데이터를 가져온다.
+                        if(root.has("status")){
+                            val status = root.getString("status")
+                            if(status=="OK"){
+                                // results 라는 이름의 배열을 가져온다.
+                                if(root.has("results")){
+                                    val resultsArray = root.getJSONArray("results")
+                                    // 처음 부터 끝까지 반복한다.
+                                    for(idx in 0 until resultsArray.length()){
+                                        // idx 번째 JSON 객체를 가져온다.
+                                        val resultsObject = resultsArray[idx] as JSONObject
+                                        // geometry 이름으로 객체를 가져온다.
+                                        val geometryObject = resultsObject.getJSONObject("geometry")
+                                        // location 이름으로 객체를 가져온다.
+                                        val locationObject = geometryObject.getJSONObject("location")
+                                        // 위도를 가져온다.
+                                        val lat = locationObject.getDouble("lat")
+                                        // 경도를 가져온다
+                                        val lng = locationObject.getDouble("lng")
+                                        // 이름
+                                        val name = resultsObject.getString("name")
+                                        // 대략적 주소
+                                        val vicinity = resultsObject.getString("vicinity")
+
+                                        // Log.d("test1234", "${lat}, ${lng}, ${name}, ${vicinity}")
+
+                                        // 데이터들을 리스트에 담는다.
+                                        latitudeList.add(lat)
+                                        longitudeList.add(lng)
+                                        nameList.add(name)
+                                        vicinityList.add(vicinity)
+                                    }
+                                }
+                                // next_page_token이 있다면
+                                if(root.has("next_page_token")){
+                                    // 토큰 값을 담아준다.
+                                    pagetoken = root.getString("next_page_token")
+                                } else {
+                                    // null을 넣어준다.
+                                    // do while의 조건식이 토큰이 null이 아닐 경우 이므로
+                                    // null을 넣어서 반복을 중단시킨다.
+                                    pagetoken = null
+                                }
+                            }else{
+                                showDataError()
+                                pagetoken = null
+                            }
+
+                        }else{
+                            showDataError()
+                            pagetoken = null
+                        }
+                    }while(pagetoken != null)
+
+                    // 화면에 관련된 작업이므로 runOnUiThread 블럭에서 작업한다.
+                    runOnUiThread {
+                        // 지도에 마커를 표시해준다.
+                        for(idx in 0 until latitudeList.size){
+                            // 마커 옵션을 만들어준다.
+                            val placeMarkerOptions = MarkerOptions()
+                            val placeLatLng = LatLng(latitudeList[idx], longitudeList[idx])
+                            placeMarkerOptions.position(placeLatLng)
+                            placeMarkerOptions.title(nameList[idx])
+                            placeMarkerOptions.snippet(vicinityList[idx])
+
+                            // 마커를 찍어준다.
+                            val placeMarker = mainGoogleMap.addMarker(placeMarkerOptions)
+                            // 나중에 제거를 위해 리스트에 담아준다.
+                            markerList.add(placeMarker!!)
+                        }
+                    }
+                }
+            }
+        }catch(e:Exception){
+            showDataError()
+        }
+    }
+
+    fun showDataError(){
+        Snackbar.make(activityMainBinding.root, "일시적인 네트워크 장애가 있습니다", Snackbar.LENGTH_SHORT).show()
+    }
+
+    // 지도상에 표시되어 있는 모든 마커를 제거하고 모든 리스트를 초기화 한다.
+    fun initPlaceData(){
+        // 리스트에 있는 마커의 개수 만큼 반복한다.
+        markerList.forEach {
+            it.remove()
+        }
+        // 리스트를 초기화한다.
+        latitudeList.clear()
+        longitudeList.clear()
+        nameList.clear()
+        vicinityList.clear()
+        markerList.clear()
     }
 }
