@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menuItemMainCalendar"
+        android:icon="@drawable/calendar_month_24px"
+        android:title="일별보기"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/menuItemMainShowAll"
+        android:icon="@drawable/clear_all_24px"
+        android:title="전체보기"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/menuItemMainAdd"
+        android:icon="@drawable/add_24px"
+        android:title="추가"
+        app:showAsAction="always" />
+</menu>
