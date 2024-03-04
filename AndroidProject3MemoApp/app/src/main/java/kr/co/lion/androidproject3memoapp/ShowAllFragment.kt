@@ -16,6 +16,9 @@ class ShowAllFragment : Fragment() {
     lateinit var fragmentShowAllBinding: FragmentShowAllBinding
     lateinit var mainActivity: MainActivity
 
+    // 리사이클러뷰 구성을 위한 리스트
+    var memoList = mutableListOf<MemoModel>()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,6 +37,9 @@ class ShowAllFragment : Fragment() {
     fun settingRecyclerShowAll(){
         fragmentShowAllBinding.apply {
             recyclerShowAll.apply {
+                // 데이터 베이스에서 데이터를 가져온다.
+                memoList = MemoDao.selectMemoDataAll(mainActivity)
+
                 // 어댑터 설정
                 adapter = RecyclerShowAllAdapter()
                 // 레이아웃 매니저
@@ -72,17 +78,20 @@ class ShowAllFragment : Fragment() {
         }
 
         override fun getItemCount(): Int {
-            return 10
+            return memoList.size
         }
 
         override fun onBindViewHolder(holder: RecyclerShowAllViewHolder, position: Int) {
-            holder.rowShowAllBinding.textShowAllSubject.text = "메모 제목 : $position"
-            holder.rowShowAllBinding.textShowAllWriteDate.text = "2024-02-28"
+            // position 번째 객체에서 데이터를 가져와 설정해준다.
+            holder.rowShowAllBinding.textShowAllSubject.text = memoList[position].memoSubject
+            holder.rowShowAllBinding.textShowAllWriteDate.text = memoList[position].memoDate
 
             // 항목을 누르면 동작하는 리스너
             holder.rowShowAllBinding.root.setOnClickListener {
                 // 메모를 보는 화면이 나타나게 한다.
-                mainActivity.replaceFragment(FragmentName.MEMO_READ_FRAGMENT, true, true, null)
+                val memoReadBundle = Bundle()
+                memoReadBundle.putInt("memoIdx", memoList[position].memoIdx)
+                mainActivity.replaceFragment(FragmentName.MEMO_READ_FRAGMENT, true, true, memoReadBundle)
             }
         }
     }

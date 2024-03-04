@@ -30,8 +30,8 @@ class MainFragment : Fragment() {
 
         settingToolbar()
 
-        // 일자별 화면이 나오도록 한다.
-        replaceFragment(MainSubFragmentName.CALENDAR_FRAGMENT, false, false, null)
+        // MainActivity에 정의한 mainSubFragmentName 프로퍼티에 담긴 이름으로 프로퍼티를 보이게 한다.
+        changeSubFragment(mainActivity.mainSubFragmentNAme)
 
         return fragmentMainBinding.root
     }
@@ -44,17 +44,20 @@ class MainFragment : Fragment() {
                 title = "메모"
                 // 메뉴
                 inflateMenu(R.menu.main_menu)
+
                 // 메뉴의 항목을 눌렀을 때.
                 setOnMenuItemClickListener {
                     // 메뉴의 항목 id로 분기한다.
                     when(it.itemId){
                         // 일자별 항목 보기 메뉴
                         R.id.menuItemMainCalendar -> {
-                            replaceFragment(MainSubFragmentName.CALENDAR_FRAGMENT, false, false, null)
+                            // 일자별 항목 보기 화면이 보이게 한다.
+                            changeSubFragment(MainSubFragmentName.CALENDAR_FRAGMENT)
                         }
                         // 전체 메모 보기 메뉴
                         R.id.menuItemMainShowAll -> {
-                            replaceFragment(MainSubFragmentName.SHOW_ALL_FRAGMENT, false, false, null)
+                            // 전체 메모 보기 화면이 보이게 한다.
+                            changeSubFragment(MainSubFragmentName.SHOW_ALL_FRAGMENT)
                         }
                         // 추가
                         R.id.menuItemMainAdd -> {
@@ -169,6 +172,32 @@ class MainFragment : Fragment() {
 
         // 지정한 이름으로 있는 Fragment를 BackStack에서 제거한다.
         mainActivity.supportFragmentManager.popBackStack(name.str, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+    }
+
+    // 하위 프래그먼트를 교체하는 메서드
+    fun changeSubFragment(name:MainSubFragmentName){
+
+        // 프래그먼트 이름으로 분기한다.
+        when(name){
+            // 일자별 항목 보기 화면
+            MainSubFragmentName.CALENDAR_FRAGMENT -> {
+                // 일자별 항목 보기 메뉴를 숨긴다
+                fragmentMainBinding.toolbarMain.menu.findItem(R.id.menuItemMainCalendar).isVisible = false
+                // 전체 메모 보기 메뉴를 보이게 한다
+                fragmentMainBinding.toolbarMain.menu.findItem(R.id.menuItemMainShowAll).isVisible = true
+            }
+            // 전체 메모 보기 화면
+            MainSubFragmentName.SHOW_ALL_FRAGMENT -> {
+                // 일자별 항목 보기 메뉴를 보이게 한다
+                fragmentMainBinding.toolbarMain.menu.findItem(R.id.menuItemMainCalendar).isVisible = true
+                // 전체 메모 보기 메뉴를 숨긴다
+                fragmentMainBinding.toolbarMain.menu.findItem(R.id.menuItemMainShowAll).isVisible = false
+            }
+        }
+
+        // 현재 보이고 있는 프래그먼트의 이름을 설정해준다.
+        mainActivity.mainSubFragmentNAme = name
+        replaceFragment(name, false, false, null)
     }
 
 }
