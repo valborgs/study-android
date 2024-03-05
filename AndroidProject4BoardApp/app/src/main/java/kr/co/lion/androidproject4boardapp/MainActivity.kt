@@ -10,12 +10,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.transition.MaterialSharedAxis
 import kr.co.lion.androidproject4boardapp.databinding.ActivityMainBinding
+import kr.co.lion.androidproject4boardapp.fragment.AddUserInfoFragment
+import kr.co.lion.androidproject4boardapp.fragment.JoinFragment
+import kr.co.lion.androidproject4boardapp.fragment.LoginFragment
 import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var activityMainBinding: ActivityMainBinding
 
+    // 프래그먼트의 주소값을 담을 프로퍼티
     var oldFragment:Fragment? = null
     var newFragment:Fragment? = null
 
@@ -30,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainBinding.root)
 
-        replaceFragment(FragmentNameMain.LOGIN_FRAGMENT, false, false, null)
+        replaceFragment(MainFragmentName.LOGIN_FRAGMENT, false, false, null)
     }
 
     // 지정한 Fragment를 보여주는 메서드
@@ -38,7 +42,7 @@ class MainActivity : AppCompatActivity() {
     // addToBackStack : BackStack에 포함 시킬 것인지
     // isAnimate : 애니메이션을 보여줄 것인지
     // data : 새로운 프래그먼트에 전달할 값이 담겨져 있는 Bundle 객체
-    fun replaceFragment(name:FragmentNameMain, addToBackStack:Boolean, isAnimate:Boolean, data:Bundle?){
+    fun replaceFragment(name:MainFragmentName, addToBackStack:Boolean, isAnimate:Boolean, data:Bundle?){
 
         // Fragment 전환에 딜레이를 조금 준다.
         SystemClock.sleep(200)
@@ -56,13 +60,16 @@ class MainActivity : AppCompatActivity() {
         // 이름으로 분기한다.
         // Fragment의 객체를 생성하여 변수에 담아준다.
         when(name){
-            FragmentNameMain.LOGIN_FRAGMENT -> {
+            // 로그인 화면
+            MainFragmentName.LOGIN_FRAGMENT -> {
                 newFragment = LoginFragment()
             }
-            FragmentNameMain.JOIN_FRAGMENT -> {
+            // 회원가입 화면1
+            MainFragmentName.JOIN_FRAGMENT -> {
                 newFragment = JoinFragment()
             }
-            FragmentNameMain.ADD_USER_INFO_FRAGMENT -> {
+            // 회원가입 화면2
+            MainFragmentName.ADD_USER_INFO_FRAGMENT -> {
                 newFragment = AddUserInfoFragment()
             }
         }
@@ -112,7 +119,7 @@ class MainActivity : AppCompatActivity() {
             // Fragment를 교체한다.(이전 Fragment가 없으면 새롭게 추가하는 역할을 수행한다)
             // 첫 번째 매개 변수 : Fragment를 배치할 FragmentContainer의 ID
             // 두 번째 매개 변수 : 보여주고자 하는 Fragment 객체
-            fragmentTransaction.replace(R.id.mainContainer, newFragment!!)
+            fragmentTransaction.replace(R.id.containerMain, newFragment!!)
 
             // addToBackStack 변수의 값이 true면 새롭게 보여질 Fragment를 BackStack에 포함시켜 준다.
             if(addToBackStack == true){
@@ -126,7 +133,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // BackStack에서 Fragment를 제거한다.
-    fun removeFragment(name:FragmentNameMain){
+    fun removeFragment(name:MainFragmentName){
         // BackStack에 가장 위에 있는 Fragment를 BackStack에서 제거한다
         // supportFragmentManager.popBackStack()
 
@@ -137,32 +144,5 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.popBackStack(name.str, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 
-
-    // 뷰에 포커스를 주고 키보드를 올린다.
-    fun showSoftInput(view: View){
-        // 뷰에 포커스를 준다.
-        view.requestFocus()
-        thread {
-            //딜레이를 준다.
-            SystemClock.sleep(200)
-            // 키보드 관리 객체를 가져온다.
-            val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-            // 키보드를 올린다.
-            inputMethodManager.showSoftInput(view, 0)
-        }
-    }
-
-    // 키보드를 내려주고 포커스를 제거한다.
-    fun hideSoftInput(){
-        // 포커스를 갖고 있는 view가 있다면
-        if(window.currentFocus != null){
-            // 키보드 관리 객체를 가져온다.
-            val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-            // 키보드를 내려준다.
-            inputMethodManager.hideSoftInputFromWindow(window.currentFocus?.windowToken,0)
-            // 포커스를 제거해준다.
-            window.currentFocus?.clearFocus()
-        }
-    }
 }
 

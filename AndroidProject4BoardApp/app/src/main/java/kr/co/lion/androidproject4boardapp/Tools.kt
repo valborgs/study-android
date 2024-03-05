@@ -8,15 +8,15 @@ class Tools {
 
 }
 
-// MainActivity의 Fragments
-enum class FragmentNameMain(var str:String){
+// MainActivity에서 보여줄 프래그먼트들의 이름
+enum class MainFragmentName(var str:String){
     LOGIN_FRAGMENT("loginFragment"),
     JOIN_FRAGMENT("joinFragment"),
     ADD_USER_INFO_FRAGMENT("addUserInfoFragment"),
 }
 
 // ContentActivity의 Fragments
-enum class FragmentNameContent(var str:String){
+enum class ContentFragmentName(var str:String){
     MAIN_FRAGMENT("mainFragment"),
     ADD_CONTENT_FRAGMENT("addContentFragment"),
     READ_CONTENT_FRAGMENT("readContentFragment"),

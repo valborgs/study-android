@@ -6,11 +6,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:transitionGroup="true"
-    tools:context=".fragment.JoinFragment">
-
+    tools:context=".fragment.AddContentFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbarJoin"
+        android:id="@+id/toolbarAddContent"
+        style="@style/Theme.AndroidProject4BoardApp.Toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
@@ -18,7 +18,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,73 +27,47 @@
             android:padding="10dp">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutJoinId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="아이디"
-                app:endIconMode="clear_text"
-                app:startIconDrawable="@drawable/person_24px">
+                android:hint="제목"
+                app:endIconMode="clear_text">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textFieldJoinUserId"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-
             </com.google.android.material.textfield.TextInputLayout>
 
-            <Button
-                android:id="@+id/buttonJoinCheckId"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonContentType"
                 style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="중복확인"
+                android:text="게시판 종류 선택"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutJoinPw1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:hint="비밀번호"
-                app:endIconMode="password_toggle"
-                app:startIconDrawable="@drawable/key_24px">
+                android:hint="내용"
+                app:endIconMode="clear_text">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textFieldJoinUserPw"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text|textPassword"
+                    android:inputType="text"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutJoinPw2"
+            <ImageView
+                android:id="@+id/imageViewAddContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:hint="비밀번호 확인"
-                app:endIconMode="password_toggle"
-                app:startIconDrawable="@drawable/key_24px">
+                app:srcCompat="@mipmap/ic_logo_foreground" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textFieldJoinUserPw2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text|textPassword"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <Button
-                android:id="@+id/buttonJoinNext"
-                style="@style/Widget.Material3.Button.OutlinedButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="다음"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
         </LinearLayout>
     </ScrollView>
 
