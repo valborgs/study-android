@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:transitionGroup="true"
-    tools:context=".fragment.AddContentFragment">
+    tools:context=".fragment.ReadContentFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbarAddContent"
+        android:id="@+id/toolbarReadContent"
         style="@style/Theme.AndroidProject4BoardApp.Toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,87 +28,83 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="제목"
-                app:endIconMode="clear_text"
-                app:startIconDrawable="@drawable/subject_24px">
+                android:hint="제목">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textFieldAddContentSubject"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text"
+                    android:clickable="false"
+                    android:editable="false"
+                    android:focusable="false"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
             </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.button.MaterialButtonToggleGroup
-                android:id="@+id/toggleAddContentType"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                app:selectionRequired="true"
-                app:singleSelection="true">
-
-                <Button
-                    android:id="@+id/buttonAddContentType1"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="자유"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-                <Button
-                    android:id="@+id/buttonAddContentType2"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="유머"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-                <Button
-                    android:id="@+id/buttonAddContentType3"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="시사"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-                <Button
-                    android:id="@+id/buttonAddContentType4"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="스포츠"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-            </com.google.android.material.button.MaterialButtonToggleGroup>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:hint="내용"
-                app:endIconMode="clear_text"
-                app:startIconDrawable="@drawable/description_24px">
+                android:hint="게시판 종류">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textFieldAddContentText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text|textMultiLine"
+                    android:clickable="false"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="작성자 닉네임">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="작성날짜">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="글 내용">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:editable="false"
+                    android:focusable="false"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <ImageView
-                android:id="@+id/imageViewAddContent"
+                android:id="@+id/imageViewReadContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:adjustViewBounds="true"
-                app:srcCompat="@drawable/panorama_24px" />
-
+                android:src="@mipmap/ic_logo_foreground" />
         </LinearLayout>
     </ScrollView>
 

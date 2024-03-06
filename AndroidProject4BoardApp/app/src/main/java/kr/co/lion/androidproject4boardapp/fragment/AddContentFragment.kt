@@ -24,22 +24,36 @@ class AddContentFragment : Fragment() {
         fragmentAddContentBinding = FragmentAddContentBinding.inflate(inflater)
         contentActivity = activity as ContentActivity
 
-        settingToolbar()
+        settingToolbarAddContent()
 
         return fragmentAddContentBinding.root
     }
 
-    fun settingToolbar(){
+    // 툴바 셋팅
+    fun settingToolbarAddContent(){
         fragmentAddContentBinding.apply {
             toolbarAddContent.apply {
                 // 타이틀
                 title = "글 작성"
-                // 메뉴
-                inflateMenu(R.menu.menu_add_content)
                 // Back
                 setNavigationIcon(R.drawable.arrow_back_24px)
                 setNavigationOnClickListener {
                     contentActivity.removeFragment(ContentFragmentName.ADD_CONTENT_FRAGMENT)
+                }
+                // 메뉴
+                inflateMenu(R.menu.menu_add_content)
+                setOnMenuItemClickListener {
+                    when(it.itemId){
+                        R.id.menuItemAddContentCamera -> {}
+                        R.id.menuItemAddContentAlbum -> {}
+                        R.id.menuItemAddContentReset -> {}
+                        R.id.menuItemAddContentDone -> {
+                            contentActivity.removeFragment(ContentFragmentName.ADD_CONTENT_FRAGMENT)
+                            contentActivity.replaceFragment(ContentFragmentName.READ_CONTENT_FRAGMENT, true, true, null)
+                        }
+                    }
+
+                    true
                 }
             }
         }

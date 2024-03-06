@@ -3,14 +3,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context=".fragment.MainFragment" >
+    android:transitionGroup="true"
+    tools:context=".fragment.MainFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbarMainFragment"
+        android:id="@+id/toolbarMain"
+        style="@style/Theme.AndroidProject4BoardApp.Toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme" />
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.search.SearchBar
+            android:id="@+id/searchBarMain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewMain"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="90dp" />
+
+        <com.google.android.material.search.SearchView
+            android:id="@+id/searchViewMain"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_anchor="@id/searchBarMain">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewMainSearch"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </com.google.android.material.search.SearchView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </LinearLayout>

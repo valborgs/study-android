@@ -10,18 +10,18 @@ import com.google.android.material.transition.MaterialSharedAxis
 import kr.co.lion.androidproject4boardapp.databinding.ActivityContentBinding
 import kr.co.lion.androidproject4boardapp.databinding.HeaderContentDrawerBinding
 import kr.co.lion.androidproject4boardapp.fragment.AddContentFragment
-import kr.co.lion.androidproject4boardapp.fragment.AddUserInfoFragment
-import kr.co.lion.androidproject4boardapp.fragment.JoinFragment
-import kr.co.lion.androidproject4boardapp.fragment.LoginFragment
 import kr.co.lion.androidproject4boardapp.fragment.MainFragment
+import kr.co.lion.androidproject4boardapp.fragment.ModifyContentFragment
+import kr.co.lion.androidproject4boardapp.fragment.ModifyUserFragment
+import kr.co.lion.androidproject4boardapp.fragment.ReadContentFragment
 
 class ContentActivity : AppCompatActivity() {
 
     lateinit var activityContentBinding: ActivityContentBinding
 
-    // 프래그먼트의 주소값을 담을 프로퍼티
-    var oldFragment: Fragment? = null
-    var newFragment: Fragment? = null
+    // 프래그먼트 객체를 담을 변수
+    var oldFragment:Fragment? = null
+    var newFragment:Fragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +31,9 @@ class ContentActivity : AppCompatActivity() {
 
         settingNavigationView()
 
-        replaceFragment(ContentFragmentName.MAIN_FRAGMENT, false, false, null)
+        val bundle = Bundle()
+        bundle.putString("title","전체게시판")
+        replaceFragment(ContentFragmentName.MAIN_FRAGMENT, false, false, bundle)
     }
 
     // 네비게이션 뷰 설정
@@ -54,31 +56,41 @@ class ContentActivity : AppCompatActivity() {
                     when(it.itemId){
                         // 전체 게시판
                         R.id.menuItemContentNavigationAll -> {
-                            replaceFragment(ContentFragmentName.MAIN_FRAGMENT, false, false, null)
+                            val bundle = Bundle()
+                            bundle.putString("title","전체게시판")
+                            replaceFragment(ContentFragmentName.MAIN_FRAGMENT, false, false, bundle)
                             // NavigationView를 닫아준다.
                             drawerLayoutContent.close()
                         }
                         // 자유 게시판
                         R.id.menuItemContentNavigation1 -> {
-                            replaceFragment(ContentFragmentName.MAIN_FRAGMENT, false, false, null)
+                            val bundle = Bundle()
+                            bundle.putString("title","자유게시판")
+                            replaceFragment(ContentFragmentName.MAIN_FRAGMENT, false, false, bundle)
                             // NavigationView를 닫아준다.
                             drawerLayoutContent.close()
                         }
                         // 유머 게시판
                         R.id.menuItemContentNavigation2 -> {
-                            replaceFragment(ContentFragmentName.MAIN_FRAGMENT, false, false, null)
+                            val bundle = Bundle()
+                            bundle.putString("title","유머게시판")
+                            replaceFragment(ContentFragmentName.MAIN_FRAGMENT, false, false, bundle)
                             // NavigationView를 닫아준다.
                             drawerLayoutContent.close()
                         }
                         // 시사 게시판
                         R.id.menuItemContentNavigation3 -> {
-                            replaceFragment(ContentFragmentName.MAIN_FRAGMENT, false, false, null)
+                            val bundle = Bundle()
+                            bundle.putString("title","시사게시판")
+                            replaceFragment(ContentFragmentName.MAIN_FRAGMENT, false, false, bundle)
                             // NavigationView를 닫아준다.
                             drawerLayoutContent.close()
                         }
                         // 스포츠 게시판
                         R.id.menuItemContentNavigation4 -> {
-                            replaceFragment(ContentFragmentName.MAIN_FRAGMENT, false, false, null)
+                            val bundle = Bundle()
+                            bundle.putString("title","스포츠게시판")
+                            replaceFragment(ContentFragmentName.MAIN_FRAGMENT, false, false, bundle)
                             // NavigationView를 닫아준다.
                             drawerLayoutContent.close()
                         }
@@ -87,7 +99,7 @@ class ContentActivity : AppCompatActivity() {
                         R.id.menuItemContentNavigationModifyUserInfo -> {
                             // NavigationView를 닫아준다.
                             drawerLayoutContent.close()
-                            replaceFragment(ContentFragmentName.MAIN_FRAGMENT, false, false, null)
+                            replaceFragment(ContentFragmentName.MODIFY_USER_FRAGMENT, true, true, null)
                         }
                         // 로그아웃
                         R.id.menuItemContentNavigationLogout -> {
@@ -142,25 +154,25 @@ class ContentActivity : AppCompatActivity() {
         // 이름으로 분기한다.
         // Fragment의 객체를 생성하여 변수에 담아준다.
         when(name){
-            // 로그인 화면
+            // 게시글 목록 화면
             ContentFragmentName.MAIN_FRAGMENT -> {
                 newFragment = MainFragment()
             }
-            // 글 작성 화면
+            // 게시글 작성 화면
             ContentFragmentName.ADD_CONTENT_FRAGMENT -> {
                 newFragment = AddContentFragment()
             }
             // 글 읽기 화면
             ContentFragmentName.READ_CONTENT_FRAGMENT -> {
-                newFragment = MainFragment()
+                newFragment = ReadContentFragment()
             }
             // 글 수정 화면
             ContentFragmentName.MODIFY_CONTENT_FRAGMENT -> {
-                newFragment = MainFragment()
+                newFragment = ModifyContentFragment()
             }
             // 회원 정보 수정 화면
             ContentFragmentName.MODIFY_USER_FRAGMENT -> {
-                newFragment = MainFragment()
+                newFragment = ModifyUserFragment()
             }
         }
 
@@ -209,7 +221,7 @@ class ContentActivity : AppCompatActivity() {
             // Fragment를 교체한다.(이전 Fragment가 없으면 새롭게 추가하는 역할을 수행한다)
             // 첫 번째 매개 변수 : Fragment를 배치할 FragmentContainer의 ID
             // 두 번째 매개 변수 : 보여주고자 하는 Fragment 객체
-            fragmentTransaction.replace(R.id.fragmentContainerView, newFragment!!)
+            fragmentTransaction.replace(R.id.containerContent, newFragment!!)
 
             // addToBackStack 변수의 값이 true면 새롭게 보여질 Fragment를 BackStack에 포함시켜 준다.
             if(addToBackStack == true){
