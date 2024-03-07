@@ -44,11 +44,15 @@ class AddContentFragment : Fragment() {
                 inflateMenu(R.menu.menu_add_content)
                 setOnMenuItemClickListener {
                     when(it.itemId){
+                        // 카메라
                         R.id.menuItemAddContentCamera -> {}
+                        // 앨범
                         R.id.menuItemAddContentAlbum -> {}
+                        // 초기화
                         R.id.menuItemAddContentReset -> {}
+                        // 완료
                         R.id.menuItemAddContentDone -> {
-                            contentActivity.removeFragment(ContentFragmentName.ADD_CONTENT_FRAGMENT)
+                            // ReadContentFragment로 이동한다.
                             contentActivity.replaceFragment(ContentFragmentName.READ_CONTENT_FRAGMENT, true, true, null)
                         }
                     }

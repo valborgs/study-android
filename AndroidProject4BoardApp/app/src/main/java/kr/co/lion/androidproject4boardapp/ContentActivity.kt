@@ -97,9 +97,9 @@ class ContentActivity : AppCompatActivity() {
                         
                         // 사용자 정보 수정
                         R.id.menuItemContentNavigationModifyUserInfo -> {
+                            replaceFragment(ContentFragmentName.MODIFY_USER_FRAGMENT, false, false, null)
                             // NavigationView를 닫아준다.
                             drawerLayoutContent.close()
-                            replaceFragment(ContentFragmentName.MODIFY_USER_FRAGMENT, true, true, null)
                         }
                         // 로그아웃
                         R.id.menuItemContentNavigationLogout -> {
@@ -162,15 +162,15 @@ class ContentActivity : AppCompatActivity() {
             ContentFragmentName.ADD_CONTENT_FRAGMENT -> {
                 newFragment = AddContentFragment()
             }
-            // 글 읽기 화면
+            // 게시글 읽기 화면
             ContentFragmentName.READ_CONTENT_FRAGMENT -> {
                 newFragment = ReadContentFragment()
             }
-            // 글 수정 화면
+            // 게시글 수정 화면
             ContentFragmentName.MODIFY_CONTENT_FRAGMENT -> {
                 newFragment = ModifyContentFragment()
             }
-            // 회원 정보 수정 화면
+            // 사용자 정보 수정 화면
             ContentFragmentName.MODIFY_USER_FRAGMENT -> {
                 newFragment = ModifyUserFragment()
             }

@@ -24,27 +24,21 @@ class ModifyUserFragment : Fragment() {
         fragmentModifyUserBinding = FragmentModifyUserBinding.inflate(inflater)
         contentActivity = activity as ContentActivity
 
-        settingToolbar()
+        settingToolbarModifyUser()
 
         return fragmentModifyUserBinding.root
     }
 
-    fun settingToolbar(){
+    fun settingToolbarModifyUser(){
         fragmentModifyUserBinding.toolbarModifyUser.apply {
             // 타이틀
             title = "회원 정보 수정"
             // 메뉴
             inflateMenu(R.menu.menu_modify_user)
-            // Back
-            setNavigationIcon(R.drawable.arrow_back_24px)
-            setNavigationOnClickListener {
-                contentActivity.removeFragment(ContentFragmentName.MODIFY_USER_FRAGMENT)
-            }
-
             setOnMenuItemClickListener {
                 when(it.itemId){
                     R.id.menuItemModifyUserDone -> {
-                        contentActivity.removeFragment(ContentFragmentName.MODIFY_USER_FRAGMENT)
+
                     }
                 }
                 true

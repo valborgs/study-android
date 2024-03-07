@@ -24,34 +24,38 @@ class ModifyContentFragment : Fragment() {
         fragmentModifyContentBinding = FragmentModifyContentBinding.inflate(inflater)
         contentActivity = activity as ContentActivity
 
-        settingToolbar()
+        settingToolbarModifyContent()
 
         return fragmentModifyContentBinding.root
     }
 
-    fun settingToolbar(){
-        fragmentModifyContentBinding.toolbarModifyContent.apply {
-            // 타이틀
-            title = "글 수정"
-            // 메뉴
-            inflateMenu(R.menu.menu_modify_content)
-            // Back
-            setNavigationIcon(R.drawable.arrow_back_24px)
-            setNavigationOnClickListener {
-                contentActivity.removeFragment(ContentFragmentName.MODIFY_CONTENT_FRAGMENT)
-            }
-
-            setOnMenuItemClickListener {
-                when(it.itemId){
-                    R.id.menuItemModifyContentCamera -> {}
-                    R.id.menuItemModifyContentAlbum -> {}
-                    R.id.menuItemModifyContentReset -> {}
-                    R.id.menuItemModifyContentDone -> {
-                        contentActivity.removeFragment(ContentFragmentName.MODIFY_CONTENT_FRAGMENT)
-                    }
+    // 툴바 설정
+    fun settingToolbarModifyContent(){
+        fragmentModifyContentBinding.apply {
+            toolbarModifyContent.apply {
+                // 타이틀
+                title = "글 수정"
+                // Back
+                setNavigationIcon(R.drawable.arrow_back_24px)
+                setNavigationOnClickListener {
+                    contentActivity.removeFragment(ContentFragmentName.MODIFY_CONTENT_FRAGMENT)
                 }
-                true
+
+                // 메뉴
+                inflateMenu(R.menu.menu_modify_content)
+                setOnMenuItemClickListener {
+                    when (it.itemId) {
+                        R.id.menuItemModifyContentCamera -> {}
+                        R.id.menuItemModifyContentAlbum -> {}
+                        R.id.menuItemModifyContentReset -> {}
+                        R.id.menuItemModifyContentDone -> {
+                            contentActivity.removeFragment(ContentFragmentName.MODIFY_CONTENT_FRAGMENT)
+                        }
+                    }
+                    true
+                }
             }
         }
     }
+
 }
