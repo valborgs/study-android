@@ -1,100 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:transitionGroup="true"
-    tools:context=".fragment.JoinFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="joinViewModel"
+            type="kr.co.lion.androidproject4boardapp.viewmodel.JoinViewModel" />
+    </data>
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbarJoin"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:transitionGroup="true"
+        tools:context=".fragment.JoinFragment">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
 
-        <LinearLayout
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbarJoin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="10dp">
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:title="@{joinViewModel.toolbarJoinTitle}"
+            app:navigationIcon="@{joinViewModel.toolbarJoinNavigationIcon}" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutJoinId"
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="아이디"
-                app:endIconMode="clear_text"
-                app:startIconDrawable="@drawable/person_24px">
+                android:orientation="vertical"
+                android:padding="10dp">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textFieldJoinUserId"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayoutJoinId"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                    android:hint="아이디"
+                    app:endIconMode="clear_text"
+                    app:startIconDrawable="@drawable/person_24px">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/textFieldJoinUserId"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:text="@={joinViewModel.textFieldJoinUserId}" />
 
-            <Button
-                android:id="@+id/buttonJoinCheckId"
-                style="@style/Widget.Material3.Button.OutlinedButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="중복확인"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutJoinPw1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:hint="비밀번호"
-                app:endIconMode="password_toggle"
-                app:startIconDrawable="@drawable/key_24px">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textFieldJoinUserPw"
+                <Button
+                    android:id="@+id/buttonJoinCheckId"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text|textPassword"
+                    android:layout_marginTop="10dp"
+                    android:text="중복확인"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutJoinPw2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:hint="비밀번호 확인"
-                app:endIconMode="password_toggle"
-                app:startIconDrawable="@drawable/key_24px">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textFieldJoinUserPw2"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayoutJoinPw1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text|textPassword"
+                    android:layout_marginTop="10dp"
+                    android:hint="비밀번호"
+                    app:endIconMode="password_toggle"
+                    app:startIconDrawable="@drawable/key_24px">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/textFieldJoinUserPw"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text|textPassword"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:text="@={joinViewModel.textFieldJoinUserPw}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayoutJoinPw2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:hint="비밀번호 확인"
+                    app:endIconMode="password_toggle"
+                    app:startIconDrawable="@drawable/key_24px">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/textFieldJoinUserPw2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text|textPassword"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:text="@={joinViewModel.textFieldJoinUserPw2}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    android:id="@+id/buttonJoinNext"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="다음"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-            </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+        </ScrollView>
 
-            <Button
-                android:id="@+id/buttonJoinNext"
-                style="@style/Widget.Material3.Button.OutlinedButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="다음"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-        </LinearLayout>
-    </ScrollView>
+    </LinearLayout>
 
-</LinearLayout>
+</layout>
