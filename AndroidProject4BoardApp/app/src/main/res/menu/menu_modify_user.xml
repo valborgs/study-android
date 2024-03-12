@@ -3,6 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/menuItemModifyUserReset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/clear_all_24px"
+        android:title="초기화"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/menuItemModifyUserDone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

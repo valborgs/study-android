@@ -3,6 +3,11 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="loginViewModel"
+            type="kr.co.lion.androidproject4boardapp.viewmodel.LoginViewModel" />
+    </data>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -42,7 +47,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:text="@={loginViewModel.textFieldLoginUserId}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -59,7 +65,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text|textPassword"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:text="@={loginViewModel.textFieldLoginUserPw}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.checkbox.MaterialCheckBox
@@ -68,7 +75,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="자동로그인"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:checked="@={loginViewModel.checkBoxLoginAuto}" />
 
                 <Button
                     android:id="@+id/buttonLoginSubmit"

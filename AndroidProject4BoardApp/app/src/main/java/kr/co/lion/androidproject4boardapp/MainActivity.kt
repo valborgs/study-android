@@ -3,8 +3,6 @@ package kr.co.lion.androidproject4boardapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
-import android.view.View
-import android.view.inputmethod.InputMethodManager
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -13,7 +11,6 @@ import kr.co.lion.androidproject4boardapp.databinding.ActivityMainBinding
 import kr.co.lion.androidproject4boardapp.fragment.AddUserInfoFragment
 import kr.co.lion.androidproject4boardapp.fragment.JoinFragment
 import kr.co.lion.androidproject4boardapp.fragment.LoginFragment
-import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,6 +19,12 @@ class MainActivity : AppCompatActivity() {
     // 프래그먼트의 주소값을 담을 프로퍼티
     var oldFragment:Fragment? = null
     var newFragment:Fragment? = null
+
+    // 확인할 권한 목록
+    val permissionList = arrayOf(
+        android.Manifest.permission.READ_EXTERNAL_STORAGE,
+        android.Manifest.permission.ACCESS_MEDIA_LOCATION
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +37,10 @@ class MainActivity : AppCompatActivity() {
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainBinding.root)
 
+        // 권한 확인
+        requestPermissions(permissionList, 0)
+
+        // 첫 화면을 띄워준다.
         replaceFragment(MainFragmentName.LOGIN_FRAGMENT, false, false, null)
     }
 

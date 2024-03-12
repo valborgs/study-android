@@ -3,6 +3,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+    
+    <data>
+        <variable
+            name="addContentViewModel"
+            type="kr.co.lion.androidproject4boardapp.viewmodel.AddContentViewModel" />
+    </data>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -41,7 +47,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:text="@={addContentViewModel.textFieldAddContentSubject}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.button.MaterialButtonToggleGroup
@@ -50,7 +57,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     app:selectionRequired="true"
-                    app:singleSelection="true">
+                    app:singleSelection="true"
+                    android:checkedButtonId="@={addContentViewModel.toggleAddContentType}" >
 
                     <Button
                         android:id="@+id/buttonAddContentType1"
@@ -102,7 +110,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text|textMultiLine"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:text="@={addContentViewModel.textFieldAddContentText}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <ImageView
