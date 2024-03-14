@@ -3,10 +3,19 @@ package kr.co.lion.androidproject4boardapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
+import android.util.Log
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.transition.MaterialSharedAxis
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.firestore
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.tasks.await
 import kr.co.lion.androidproject4boardapp.databinding.ActivityMainBinding
 import kr.co.lion.androidproject4boardapp.fragment.AddUserInfoFragment
 import kr.co.lion.androidproject4boardapp.fragment.JoinFragment
@@ -25,6 +34,8 @@ class MainActivity : AppCompatActivity() {
         android.Manifest.permission.READ_EXTERNAL_STORAGE,
         android.Manifest.permission.ACCESS_MEDIA_LOCATION
     )
+
+    var result = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

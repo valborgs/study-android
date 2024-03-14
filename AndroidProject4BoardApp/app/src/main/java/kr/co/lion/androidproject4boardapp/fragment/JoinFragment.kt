@@ -8,10 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kr.co.lion.androidproject4boardapp.MainActivity
 import kr.co.lion.androidproject4boardapp.MainFragmentName
 import kr.co.lion.androidproject4boardapp.R
 import kr.co.lion.androidproject4boardapp.Tools
+import kr.co.lion.androidproject4boardapp.dao.UserDao
 import kr.co.lion.androidproject4boardapp.databinding.FragmentJoinBinding
 import kr.co.lion.androidproject4boardapp.viewmodel.JoinViewModel
 
@@ -87,9 +92,11 @@ class JoinFragment : Fragment() {
                     // 입력이 모두 잘 되어 있다면...
                     if(chk == true){
                         // 키보드를 내려준다.
-                        Tools.hideSoftInput(mainActivity)
+                        // Tools.hideSoftInput(mainActivity)
                         // AddUserInfoFragment를 보여준다.
-                        mainActivity.replaceFragment(MainFragmentName.ADD_USER_INFO_FRAGMENT, true, true, null)
+                        // mainActivity.replaceFragment(MainFragmentName.ADD_USER_INFO_FRAGMENT, true, true, null)
+
+                        joinNext()
                     }
                 }
             }
@@ -158,9 +165,38 @@ class JoinFragment : Fragment() {
         fragmentJoinBinding.apply {
             buttonJoinCheckId.apply {
                 setOnClickListener {
-                    checkUserIdExist = true
+                    if(joinViewModel?.textFieldJoinUserId?.value!!.isEmpty()){
+                        Tools.showErrorDialog(mainActivity, fragmentJoinBinding.textFieldJoinUserId, "아이디 입력 오류", "아이디를 입력해주세요")
+                        return@setOnClickListener
+                    }
+
+                    CoroutineScope(Dispatchers.Main).launch {
+                        checkUserIdExist = UserDao.checkUserIdExist(joinViewModel?.textFieldJoinUserId?.value!!)
+
+                        if(checkUserIdExist == false){
+                            joinViewModel?.textFieldJoinUserId?.value = ""
+                            Tools.showErrorDialog(mainActivity, fragmentJoinBinding.textFieldJoinUserId, "아이디 입력 오류", "존재하는 아이디입니다\n다른 아이디를 입력해주세요")
+                        } else {
+                            Tools.showErrorDialog(mainActivity, fragmentJoinBinding.textFieldJoinUserId, "아이디 중복 확인", "사용 가능한 아이디 입니다")
+                        }
+                    }
+
+                    // checkUserIdExist = true
                 }
             }
         }
+    }
+
+    // 다음 과정으로 이동한다.
+    fun joinNext(){
+        // 사용자가 입력한 데이터를 담는다.
+        val joinBundle = Bundle()
+        joinBundle.putString("joinUserId",joinViewModel.textFieldJoinUserId.value!!)
+        joinBundle.putString("joinUserPw",joinViewModel.textFieldJoinUserPw.value!!)
+
+        // 키보드를 내려준다.
+        Tools.hideSoftInput(mainActivity)
+        // AddUserInfoFragment를 보여준다.
+        mainActivity.replaceFragment(MainFragmentName.ADD_USER_INFO_FRAGMENT, true, true, joinBundle)
     }
 }
