@@ -9,6 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kr.co.lion.androidproject4boardapp.model.UserModel
+import kotlin.math.log
 
 class UserDao {
 
@@ -92,6 +93,30 @@ class UserDao {
             return chk
         }
 
+        // 아이디를 통해 사용자 정보를 가져오는 메서드
+        suspend fun getUserDataById(userId:String) : UserModel?{
+            // 사용자 정보 객체를 담을 변수
+            var userModel:UserModel? = null
+
+            val job1 = CoroutineScope(Dispatchers.IO).launch {
+                // UserData 컬렉션 접근 객체를 가져온다.
+                val collectionReference = Firebase.firestore.collection("UserData")
+                // userId 필드가 매개변수로 들어오는 userId와 같은 문서들을 가져온다.
+                val querySnapshot = collectionReference.whereEqualTo("userId", userId).get().await()
+                // 만약 가져온 것이 있다면
+                if(querySnapshot.isEmpty == false){
+                    // 가져온 문서 객체들이 들어있는 리스트에서 첫 번째 객체를 추출한다.
+                    // 아이디가 동일한 사용자는 없기 때문에 무조건 하나만 나오기 때문
+                    userModel = querySnapshot.documents[0].toObject(UserModel::class.java)
+                    // 이때 UserModel클래스의 매개변수가 없는 생성자를 호출해주기 때문에 생성자를 만들어놔야 한다.
+                    // Log.d("test1234","${userModel}")
+
+                }
+            }
+            job1.join()
+
+            return userModel
+        }
 
 
 

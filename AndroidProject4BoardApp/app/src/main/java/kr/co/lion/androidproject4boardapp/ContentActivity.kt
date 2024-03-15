@@ -22,12 +22,20 @@ class ContentActivity : AppCompatActivity() {
     // 프래그먼트 객체를 담을 변수
     var oldFragment:Fragment? = null
     var newFragment:Fragment? = null
+    
+    // 로그인한 사용자의 정보를 담을 변수
+    var loginUserIdx = 0
+    var loginUserNickName = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         activityContentBinding = ActivityContentBinding.inflate(layoutInflater)
         setContentView(activityContentBinding.root)
+
+        // 로그인한 사용자 정보를 변수에 담아둔다.
+        loginUserIdx = intent.getIntExtra("loginUserIdx", 0)
+        loginUserNickName = intent.getStringExtra("loginUserNickName")!!
 
         settingNavigationView()
 
@@ -46,7 +54,7 @@ class ContentActivity : AppCompatActivity() {
                 addHeaderView(headerContentDrawerBinding.root)
                 
                 // 사용자 닉네임을 설정한다.
-                headerContentDrawerBinding.headerContentDrawerNickName.text = "홍길동님"
+                headerContentDrawerBinding.headerContentDrawerNickName.text = loginUserNickName
 
                 // 메뉴를 눌렀을 때 동작하는 리스너
                 setNavigationItemSelectedListener {
