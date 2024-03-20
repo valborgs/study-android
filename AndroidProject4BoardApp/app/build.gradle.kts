@@ -57,4 +57,6 @@ dependencies {
 
     implementation("com.google.firebase:firebase-firestore:24.10.3")
     implementation("com.google.firebase:firebase-storage:20.3.0")
+
+    implementation("com.github.bumptech.glide:glide:4.16.0")
 }

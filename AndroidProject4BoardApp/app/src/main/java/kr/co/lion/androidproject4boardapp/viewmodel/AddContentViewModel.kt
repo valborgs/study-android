@@ -28,6 +28,15 @@ class AddContentViewModel : ViewModel() {
         }
     }
 
+    // MutableLiveData에 담긴 버튼의 ID 값을 통해 게시판 타입값을 반환하는 메서드
+    fun gettingContentType():ContentType = when(toggleAddContentType.value){
+        R.id.buttonAddContentType1 -> ContentType.TYPE_FREE
+        R.id.buttonAddContentType2 -> ContentType.TYPE_HUMOR
+        R.id.buttonAddContentType3 -> ContentType.TYPE_SOCIETY
+        R.id.buttonAddContentType4 -> ContentType.TYPE_SPORTS
+        else -> ContentType.TYPE_ALL
+    }
+
 
     companion object {
         //====단방향==============================================================================

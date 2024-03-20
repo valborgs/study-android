@@ -4,6 +4,7 @@ import android.util.Log
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
+import com.google.firebase.firestore.toObject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -118,7 +119,46 @@ class UserDao {
             return userModel
         }
 
+        // 사용자 번호를 통해 사용자 정보를 가져와 반환한다
+        suspend fun gettingUserInfoByUserIdx(userIdx:Int) : UserModel? {
 
+            var userModel:UserModel? = null
+
+            val job1 = CoroutineScope(Dispatchers.IO).launch {
+                // UserData 컬렉션 접근 객체를 가져온다.
+                val collectionReference = Firebase.firestore.collection("UserData")
+                // userIdx 필드가 매개변수로 들어오는 userIdx와 같은 문서들을 가져온다.
+                val querySnapshot = collectionReference.whereEqualTo("userIdx", userIdx).get().await()
+                // 가져온 문서객체들이 들어 있는 리스트에서 첫 번째 객체를 추출한다.
+                // 회원 번호가 동일한 사용는 없기 때문에 무조건 하나만 나오기 때문이다
+                userModel = querySnapshot.documents[0].toObject(UserModel::class.java)
+            }
+            job1.join()
+
+            return userModel
+        }
+
+
+        // 모든 사용자의 정보를 가져온다.
+        suspend fun getUserAll():MutableList<UserModel>{
+            // 사용자 정보를 담을 리스트
+            val userList = mutableListOf<UserModel>()
+
+            val job1 = CoroutineScope(Dispatchers.IO).launch {
+                // 모든 사용자 정보를 가져온다.
+                val querySnapshot = Firebase.firestore.collection("UserData").get().await()
+                // 가져온 문서의 수 만큼 반복한다.
+                querySnapshot.forEach {
+                    // UserModel 객체에 담는다.
+                    val userModel = it.toObject(UserModel::class.java)
+                    // 리스트에 담는다.
+                    userList.add(userModel)
+                }
+            }
+            job1.join()
+
+            return userList
+        }
 
 
     }

@@ -36,8 +36,6 @@ class MainActivity : AppCompatActivity() {
         android.Manifest.permission.ACCESS_MEDIA_LOCATION
     )
 
-    var result = 0L
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
